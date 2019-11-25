@@ -1,54 +1,139 @@
 #include "computer.h"
 
-struct table    *create_hash_table(int size){
-    struct table *t = (struct table *)malloc(sizeof(struct table));
-    t->size = size;
-    t->list = (struct node **)malloc(sizeof(struct node*) * size);
-    for (int i = 0; i < size; i++)
-        t->list[i] = NULL;
-    return t;
-}
+HashTable   *ht_create(unsigned int size){
+    HashTable *ht;
 
-int hash_code(struct table *t, char *key){
-
-    int hash = 0;
-    int i = 0;
-    while (key && key[i]){
-        hash = (hash + key[i]) % *t->size;
-        ++i;
+    if (size < 1) {
+        return NULL;
     }
 
+    ht = malloc(sizeof(HashTable));
+    if (ht == NULL){
+        return NULL;
+    }
+
+    ht->array = (List**)malloc(sizeof(List) * size);
+    if (ht->array == NULL){
+        return NULL;
+    }
+
+    memset(ht->array, 0, sizeof(List) * size);
+
+    ht->size = size;
+
+    return ht;
+}
+
+unsigned int hash(const char *key, unsigned int size){
+    unsigned int hash;
+    unsigned int i;
+
+    hash = 0;
+    i = 0;
+    while (key && key[i]){
+        hash = (hash + hey[i]) % size;
+        ++i;
+    }
     return hash;
 }
 
-void hash_insert(struct table *t, char *key, char *val){
-    int pos = hash_code(t, key);
-    struct node *list = t->list[pos];
-    struct node *temp = list;
-    struct node *newNode;
-    while(temp){
-        if (temp->key == key){
-            temp->val = val;
-            return;
-        }
-        temp = temp->next;
+int ht_put(HashTable *hashtable, cont char *key, const char *value){
+    List *node;
+
+    if (hashtable == NULL){
+        return 1;
     }
-    newNode = (struct node*)malloc(sizeof(struct node));
-    newNode->key = key;
-    newNode->val = val;
-    newNode->next = list;
-    t->list[pos] = newNode;
+
+    node = malloc(sizeof(List));
+    if (node == NULL){
+        return 1;
+    }
+
+    node->key = strdup(key);
+    node->value = strdup(value);
+
+    node_handler(hashtable, node);
+
+    return 0;
 }
 
-char *hash_lookup(struct table *t, char *key){
-    int pos = hash_code(t, key);
-    struct node *list = t->list[pos];
-    struct node *temp = list;
-    while(temp){
-        if (temp->key == key){
-            return temp->val;
+void node_handler(HashTable *hashtable, List *node){
+    unsigned int i = hash(node->key, hashtable->size);
+    List    *tmp = hashtable->array[i];
+
+    if (hashtable->array[i] != NULL){
+        tmp = hashtable->array[i];
+        while (tmp != NULL){
+            if (strcmp(tmp->key, node->key) == 0){
+                break ;
+            }
+            tmp = tmp->next;
         }
-        temp = temp->next;
+        if (tmp == NULL){
+            node->next = hashtable->array[i];
+            hashtable->array[i] = node;
+        }
+        else {
+            free(tmp->value);
+            tmp->value = strdup(node->value);
+            free(node->value);
+            free(node->key);
+            free(node);
+        }
     }
-    return NULL;
+    else {
+        node->next = NULL;
+        hashtable->array[i] = node;
+    }
 }
+
+char    *ht_get(HashTable hashtable, const char *key){
+    char *key_cp;
+    unsigned int i;
+    List *tmp;
+
+    if (hashtable == NULL){
+        return NULL;
+    }
+    key_cp = strdup(key);
+    i = hash(key, hashtable->size);
+    tmp = hashtable->array[i];
+
+    while(tmp != NULL){
+        if (strcmp(tmp->key, key_cp) == 0){
+            break ;
+        }
+        tmp = tmp->next;
+    }
+    free(key_cp);
+
+    if (tmp == NULL){
+        return NULL;
+    }
+    return tmp->value;
+}
+
+void    ht_free(HashTable hashtable){
+    List *tmp;
+    unsigned int i;
+
+    if (hashtable == NULL){
+        return;
+    }
+
+    for (i = 0; i < hashtable->size; ++i){
+        if (hashtable->array[i] != NULL){
+            while (hashtable->array[i] != NULL){
+                tmp = hashtable->array[i]->next;
+                free(hashtable->array[i]->key);
+                free(hashtable->array[i]->value);
+                free()hashtable->array[i]);
+                hashtable->array[i] = tmp;
+            }
+            free(hashtable->array[i]);
+        }
+    }
+    free(HashTable->array);
+    free(hashtable);
+}
+

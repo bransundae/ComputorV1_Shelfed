@@ -8,14 +8,22 @@ void            simplify(char *str){
         
         free(terms);
 
-        struct table *t = create_hash_table(50);
+        HashTable *ht = ht_create(103);
 
         for (int i = 0; left_delim[i] != NULL; i++){
                 if (left_delim[i][0] == 'X'){
-                        if (i > 1 && left_delim[i - 2][0] >= '0' && left_delim[i - 2][0] <= '9')
-                                hash_insert(t, left_delim[i], left_delim[i - 2]);
-                        else
-                                hash_insert(t, left_delim[i], "1");
+                        if (i > 1 && left_delim[i - 2][0] >= '0' && left_delim[i - 2][0] <= '9'){
+                                if (ht_get(ht, left_delim[i]))
+                                        ht_put(ht, left_delim[i], left_delim[i - 2]);
+                                else
+                                        ht_put(ht, left_delim[i], left_delim[i - 2]);
+                        }
+                        else{
+                                if (ht_get(ht, left_delim[i]))
+                                        ht_put(ht, left_delim[i], "1");
+                                else
+                                        ht_put(ht, left_delim[i], "1")
+                        }
                 }
             printf("%s %d %s %s\n", "VALUE ", i + 1, ":", left_delim[i]);
         }

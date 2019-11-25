@@ -8,16 +8,24 @@
 #include <stdbool.h>
 
 //HASH MAP
-struct node {
+typedef struct List {
     char *key;
     char *val;
-    struct node *next;
-};
+    struct List *next;
+} List;
 
-struct table{
-    int size;
-    struct node **list;
-};
+typedef struct HashTable{
+    unsigned int size;
+    List **array;
+} HashTable;
+
+//HASH MAP
+HashTable   *ht_create(unsigned int size);
+unsigned int hash(const char *key, unsigned int size);
+int ht_put(HashTable *hashtable, cont char *key, const char *value);
+void node_handler(HashTable *hashtable, List *node);
+char    *ht_get(HashTable hashtable, const char *key);
+void    ht_free(HashTable hashtable);
 
 //PARSING
 void            itoa_isnegative(int *n, int *neg);
@@ -28,12 +36,6 @@ char            *malloc_word(char *str, char **args);
 char            **ft_split(char *str, char **args);
 int             str_len(char *strlen);
 char            **half_split(char *str);
-
-//HASH MAP
-struct table    *create_hash_table(int size);
-int             hash_code(struct table *t, char *key);
-void            hash_Insert(struct table *t, char *key, char *val);
-char            *hash_lookup(struct table *t, char *key);
 
 //MATH PARSER
 char    *quad_reduce(char *str);
