@@ -1,4 +1,4 @@
-#include "computer.h"
+#include "computor.h"
 
 void            simplify(char *str){
         char *args[] = {"*", "/", "+", "-", "^", "X", ".", NULL};
@@ -10,6 +10,7 @@ void            simplify(char *str){
 
         HashTable *ht = ht_create(103);
 
+        //Capture terms inside of hashmap
         for (int i = 0; left_delim[i] != NULL; i++){
                 if (left_delim[i][0] == 'X'){
                         if (i > 1 && left_delim[i - 2][0] >= '0' && left_delim[i - 2][0] <= '9'){
@@ -22,15 +23,17 @@ void            simplify(char *str){
                                 if (ht_get(ht, left_delim[i]))
                                         ht_put(ht, left_delim[i], "1");
                                 else
-                                        ht_put(ht, left_delim[i], "1")
+                                        ht_put(ht, left_delim[i], "1");
                         }
                 }
-            printf("%s %d %s %s\n", "VALUE ", i + 1, ":", left_delim[i]);
         }
+
+        ht_print(ht);
 
         /*for (int i = 0; right_delim[i] != NULL; i++){
             printf("%s %d %s %s\n", "VALUE ", i + 1, ":", right_delim[i]);
         }*/
+        ht_free(ht);
 
 }
 

@@ -1,4 +1,4 @@
-#include "computer.h"
+#include "computor.h"
 
 char    *quad_reduce(char *str){
     //struct table *t = create_hash_table(10);

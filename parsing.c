@@ -1,4 +1,4 @@
-#include "computer.h"
+#include "computor.h"
 
 void	itoa_isnegative(int *n, int *neg)
 {

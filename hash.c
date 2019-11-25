@@ -1,4 +1,4 @@
-#include "computer.h"
+#include "computor.h"
 
 HashTable   *ht_create(unsigned int size){
     HashTable *ht;
@@ -31,13 +31,13 @@ unsigned int hash(const char *key, unsigned int size){
     hash = 0;
     i = 0;
     while (key && key[i]){
-        hash = (hash + hey[i]) % size;
+        hash = (hash + key[i]) % size;
         ++i;
     }
     return hash;
 }
 
-int ht_put(HashTable *hashtable, cont char *key, const char *value){
+int ht_put(HashTable *hashtable, const char *key, const char *value){
     List *node;
 
     if (hashtable == NULL){
@@ -87,7 +87,7 @@ void node_handler(HashTable *hashtable, List *node){
     }
 }
 
-char    *ht_get(HashTable hashtable, const char *key){
+char    *ht_get(HashTable *hashtable, const char *key){
     char *key_cp;
     unsigned int i;
     List *tmp;
@@ -113,7 +113,7 @@ char    *ht_get(HashTable hashtable, const char *key){
     return tmp->value;
 }
 
-void    ht_free(HashTable hashtable){
+void    ht_free(HashTable *hashtable){
     List *tmp;
     unsigned int i;
 
@@ -127,13 +127,32 @@ void    ht_free(HashTable hashtable){
                 tmp = hashtable->array[i]->next;
                 free(hashtable->array[i]->key);
                 free(hashtable->array[i]->value);
-                free()hashtable->array[i]);
+                free(hashtable->array[i]);
                 hashtable->array[i] = tmp;
             }
             free(hashtable->array[i]);
         }
     }
-    free(HashTable->array);
+    free(hashtable->array);
     free(hashtable);
+}
+
+void    ht_print(HashTable *hashtable){
+    List *tmp;
+    unsigned int i;
+
+    if (hashtable == NULL){
+        return;
+    }
+
+    for (i = 0; i < hashtable->size; ++i){
+        if (hashtable->array[i] != NULL){
+            while (hashtable->array[i] != NULL){
+                tmp = hashtable->array[i]->next;
+                printf("%s * %s\n", hashtable->array[i]->value, hashtable->array[i]->key);
+                hashtable->array[i] = tmp;
+            }
+        }
+    }
 }
 

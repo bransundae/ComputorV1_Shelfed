@@ -1,5 +1,5 @@
-#ifndef COMPUTER_H
-#define COMPUTER_H
+#ifndef COMPUTOR_H
+#define COMPUTOR_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,7 +10,7 @@
 //HASH MAP
 typedef struct List {
     char *key;
-    char *val;
+    char *value;
     struct List *next;
 } List;
 
@@ -22,10 +22,10 @@ typedef struct HashTable{
 //HASH MAP
 HashTable   *ht_create(unsigned int size);
 unsigned int hash(const char *key, unsigned int size);
-int ht_put(HashTable *hashtable, cont char *key, const char *value);
+int ht_put(HashTable *hashtable, const char *key, const char *value);
 void node_handler(HashTable *hashtable, List *node);
-char    *ht_get(HashTable hashtable, const char *key);
-void    ht_free(HashTable hashtable);
+char    *ht_get(HashTable *hashtable, const char *key);
+void    ht_free(HashTable *hashtable);
 
 //PARSING
 void            itoa_isnegative(int *n, int *neg);
@@ -36,6 +36,7 @@ char            *malloc_word(char *str, char **args);
 char            **ft_split(char *str, char **args);
 int             str_len(char *strlen);
 char            **half_split(char *str);
+void            ht_print(HashTable *hashtable);
 
 //MATH PARSER
 char    *quad_reduce(char *str);
