@@ -10,6 +10,7 @@ void            simplify(char *str){
 
         HashTable *ht = ht_create(103);
         //TODO: Create own strcat implementation
+        //TODO: handle decimal conversion of coefficient when divide
         //Capture terms inside of hashmap
         for (int i = 0; left_delim[i] != NULL; i++){
                 if (left_delim[i][0] == 'X'){
@@ -41,15 +42,25 @@ void            simplify(char *str){
                 if (right_delim[i][0] == 'X'){
                         if (i > 1 && right_delim[i - 2][0] >= '0' && right_delim[i - 2][0] <= '9'){
                                 if (ht_get(ht, right_delim[i])){
-                                        if (i > 2 && right_delim[i - 3])
-                                                ht_put(ht, right_delim[i], strcat(right_delim[i - 3], right_delim[i - 2]));
-                                        else{
-                                                ht_put(ht, right_delim[i], right_delim[i - 2]);
+                                        float current_val = atof(ht_get(ht, right_delim[i - 3]));
+                                        float new_val;
+                                        if (i > 2 && right_delim[i - 3]){
+                                                if (right_delim[i - 3] == "-")
+                                                        new_val = atof(strcat(right_delim[i - 3], right_delim[i - 2]));
+                                                else
+                                                        new_val = atof(right_delim[i - 2]);
                                         }
+                                        else
+                                                new_val = atof(right_delim[i - 2]);
+                                        ht_put(ht, right_delim[i], ftoa(current_val + new_val));
                                 }
                                 else{
-                                        if (i > 2 && right_delim[i - 3])
-                                                ht_put(ht, right_delim[i], strcat(right_delim[i - 3], right_delim[i - 2]));
+                                        if (i > 2 && right_delim[i - 3]){
+                                                if (right_delim[i - 3] == "-")
+                                                        ht_put(ht, right_delim[i], strcat(right_delim[i - 3], right_delim[i - 2]));
+                                                else
+                                                        ht_put(ht, right_delim[i], right_delim[i - 2]);
+                                        }
                                         else
                                                 ht_put(ht, right_delim[i], right_delim[i - 2]);
                                 }

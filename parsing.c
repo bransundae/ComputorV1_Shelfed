@@ -8,6 +8,8 @@ void	itoa_isnegative(int *n, int *neg)
 	}
 }
 
+
+
 char	*ft_itoa(int n){
 	int tmp;
 	int len;
