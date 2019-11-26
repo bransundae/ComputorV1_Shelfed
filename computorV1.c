@@ -5,7 +5,7 @@ void            simplify(char *str){
         char **terms = half_split(str);
         char **left_delim = ft_split(terms[0], args);
         char **right_delim = ft_split(terms[1], args);
-        
+
         free(terms);
 
         HashTable *ht = ht_create(103);
@@ -42,8 +42,8 @@ void            simplify(char *str){
                 if (right_delim[i][0] == 'X'){
                         if (i > 1 && right_delim[i - 2][0] >= '0' && right_delim[i - 2][0] <= '9'){
                                 if (ht_get(ht, right_delim[i])){
-                                        float current_val = atof(ht_get(ht, right_delim[i - 3]));
                                         float new_val;
+                                        float current_val = atof(ht_get(ht, right_delim[i]));
                                         if (i > 2 && right_delim[i - 3]){
                                                 if (right_delim[i - 3] == "-")
                                                         new_val = atof(strcat(right_delim[i - 3], right_delim[i - 2]));
@@ -52,17 +52,17 @@ void            simplify(char *str){
                                         }
                                         else
                                                 new_val = atof(right_delim[i - 2]);
-                                        ht_put(ht, right_delim[i], ftoa(current_val + new_val));
+                                        ht_put(ht, right_delim[i], herc_ftoa(current_val + (new_val * -1)));
                                 }
                                 else{
                                         if (i > 2 && right_delim[i - 3]){
                                                 if (right_delim[i - 3] == "-")
-                                                        ht_put(ht, right_delim[i], strcat(right_delim[i - 3], right_delim[i - 2]));
-                                                else
                                                         ht_put(ht, right_delim[i], right_delim[i - 2]);
+                                                else
+                                                        ht_put(ht, right_delim[i], strcat("-", right_delim[i - 2]));
                                         }
                                         else
-                                                ht_put(ht, right_delim[i], right_delim[i - 2]);
+                                                ht_put(ht, right_delim[i], strcat("-", right_delim[i - 2]));
                                 }
                         }
                         else{

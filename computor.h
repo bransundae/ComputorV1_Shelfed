@@ -7,6 +7,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <math.h>
 
 //HASH MAP
 typedef struct List {
@@ -29,8 +30,8 @@ char    *ht_get(HashTable *hashtable, const char *key);
 void    ht_free(HashTable *hashtable);
 
 //PARSING
-void            itoa_isnegative(int *n, int *neg);
-char	        *ft_itoa(int n);
+void            herc_itoa_isnegative(int *n, int *neg);
+char	        *herc_itoa(int n);
 int             delim(char *str, char **delim);
 int             count_words(char *str, char **args);
 char            *malloc_word(char *str, char **args);
@@ -42,4 +43,6 @@ void            ht_print(HashTable *hashtable);
 //MATH PARSER
 char    *quad_reduce(char *str);
 
+//HERCULES
+char    *herc_ftoa(float num);
 #endif

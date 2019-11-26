@@ -1,6 +1,20 @@
 #include "computor.h"
+#include <math.h>
+#include <stdio.h>
 
-void	itoa_isnegative(int *n, int *neg)
+//STR_LEN
+
+int            str_len(char *strlen){
+        int count = 0;
+
+        while (strlen[count])
+                count++;
+        return count;
+}
+
+//ITOA
+
+void	herc_itoa_isnegative(int *n, int *neg)
 {
 	if (*n < 0){
 		*n *= -1;
@@ -8,9 +22,7 @@ void	itoa_isnegative(int *n, int *neg)
 	}
 }
 
-
-
-char	*ft_itoa(int n){
+char	*herc_itoa(int n){
 	int tmp;
 	int len;
 	int neg;
@@ -19,7 +31,7 @@ char	*ft_itoa(int n){
 	tmp = n;
 	len = 2;
 	neg = 0;
-	itoa_isnegative(&n, &neg);
+	herc_itoa_isnegative(&n, &neg);
 	while (tmp /= 10)
 		len++;
 	len += neg;
@@ -35,6 +47,32 @@ char	*ft_itoa(int n){
 		str[0] = '-';
 	return (str);
 }
+
+//FTOA
+
+char    *herc_ftoa(float num){
+
+    long    integer = (long)num;
+    float   p = fmod(num, 1);
+
+    char    *int_str = herc_itoa(integer);
+
+    float tmp = p * 10;
+    while(fmod(tmp, 1) != 0){
+        tmp *= 10;
+    }
+
+    long    decimal = (long)tmp;
+
+    char    *dec_str = herc_itoa(decimal);
+
+    char    *final = strcat(int_str, ".");
+    final = strcat(final, dec_str);
+    
+    return final;
+}
+
+//SPLIT
 
 int      delim(char *str, char **delim)
 {
@@ -108,13 +146,7 @@ char            **ft_split(char *str, char **args)
         return (tab);
 }
 
-int            str_len(char *strlen){
-        int count = 0;
-
-        while (strlen[count])
-                count++;
-        return count;
-}
+//HALF SPLIT
 
 char            **half_split(char *str){
         int     count = 0;
