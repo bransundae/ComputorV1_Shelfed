@@ -43,8 +43,9 @@ void            simplify(char *str){
                                 if (ht_get(ht, right_delim[i])){
                                         if (i > 2 && right_delim[i - 3])
                                                 ht_put(ht, right_delim[i], strcat(right_delim[i - 3], right_delim[i - 2]));
-                                        else
+                                        else{
                                                 ht_put(ht, right_delim[i], right_delim[i - 2]);
+                                        }
                                 }
                                 else{
                                         if (i > 2 && right_delim[i - 3])
@@ -61,6 +62,7 @@ void            simplify(char *str){
                         }
                 }
         }
+        ht_print(ht);
         ht_free(ht);
 }
 

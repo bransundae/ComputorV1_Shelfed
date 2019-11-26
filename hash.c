@@ -138,19 +138,18 @@ void    ht_free(HashTable *hashtable){
 }
 
 void    ht_print(HashTable *hashtable){
-    List *tmp;
+    List *traverse;
     unsigned int i;
 
     if (hashtable == NULL){
         return;
     }
-
     for (i = 0; i < hashtable->size; ++i){
         if (hashtable->array[i] != NULL){
-            while (hashtable->array[i] != NULL){
-                tmp = hashtable->array[i]->next;
-                printf("%s * %s\n", hashtable->array[i]->value, hashtable->array[i]->key);
-                hashtable->array[i] = tmp;
+            traverse = hashtable->array[i];
+            while (traverse != NULL){
+                printf("%s * %s\n", traverse->value, traverse->key);
+                traverse = traverse->next;
             }
         }
     }
