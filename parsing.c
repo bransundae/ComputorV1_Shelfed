@@ -2,6 +2,12 @@
 #include <math.h>
 #include <stdio.h>
 
+//
+bool herc_float_prox(const float a, const float b)
+{
+        return (a + 0.1f >= b) && (a - 0.1f <= b);
+}
+
 //STR_LEN
 
 int            str_len(char *strlen){
@@ -53,12 +59,18 @@ char	*herc_itoa(int n){
 char    *herc_ftoa(float num){
 
     long    integer = (long)num;
-    float   p = fmod(num, 1);
+    float   p;
+    
+    if (num < 0){
+        p = fmod((num * -1), 1);
+    } else{
+        p = fmod(num, 1);
+    }
 
     char    *int_str = herc_itoa(integer);
 
     float tmp = p * 10;
-    while(fmod(tmp, 1) != 0){
+    while(herc_float_prox(fmod(tmp, 1), 0.0f) == false){
         tmp *= 10;
     }
 
